@@ -1,0 +1,1 @@
+# Community.Powertoys.Run.Plugin.ExcelSearch
