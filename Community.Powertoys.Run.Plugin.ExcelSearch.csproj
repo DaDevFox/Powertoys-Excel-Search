@@ -1,16 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-	<Platforms>x64</Platforms>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <Platforms>x64</Platforms>
+	  <UseWPF>True</UseWPF>
+	  <LangVersion>preview</LangVersion>	
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
-
-	<PropertyGroup>
-		<LangVersion>preview</LangVersion>	
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<UseWPF>true</UseWPF>
-	</PropertyGroup>
 
 	<ItemGroup Condition="'$(Platform)' == 'x64'">
 		<Reference Include=".\libs\x64\PowerToys.Common.UI.dll" />
@@ -20,6 +17,30 @@
 		<Reference Include=".\libs\x64\Wox.Plugin.dll" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Images\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="PresentationCore">
+	    <HintPath>..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\PresentationCore.dll</HintPath>
+	  </Reference>
+	  <Reference Include="PresentationFramework">
+	    <HintPath>..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\PresentationFramework.dll</HintPath>
+	  </Reference>
+	  <Reference Include="System.Windows.Presentation">
+	    <HintPath>..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.5\System.Windows.Presentation.dll</HintPath>
+	  </Reference>
+	  <Reference Include="WindowsBase">
+	    <HintPath>..\..\..\..\..\Program Files\dotnet\shared\Microsoft.WindowsDesktop.App\8.0.5\WindowsBase.dll</HintPath>
+	  </Reference>
+	  <Reference Include="WindowsFormsIntegration">
+	    <HintPath>..\..\..\..\..\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 
 
