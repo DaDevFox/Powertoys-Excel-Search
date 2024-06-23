@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ManagedCommon;
@@ -31,7 +32,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
         /// <summary>
         /// Description of the plugin.
         /// </summary>
-        public string Description => "Searches recent excel sheets";
+        public string Description => "Searches recent excel sheets.";
 
         /// <summary>
         /// Additional options for the plugin.
@@ -63,6 +64,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
         public List<Result> Query(Query query)
         {
             Log.Info("Query: " + query.Search, GetType());
+            bool showQueryInSearch = false;
 
             return (from file in Files.OfType<RecentFile>()
                     where file.Name.Contains(query.Search)
@@ -70,9 +72,14 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                     {
                         QueryTextDisplay = query.Search,
                         IcoPath = IconPath,
-                        Title = $"{file.Name}",
-                        SubTitle = $"(index {file.Index})",
-                        ToolTipData = new ToolTipData("Index", $"{file.Index}"),
+                        Title =
+                          !showQueryInSearch ?
+                            Path.GetFileNameWithoutExtension(file.Name) :
+                            $"...{file.Name.Substring(
+                                Math.Max(file.Name.IndexOf(query.Search) - 3, 0),
+                                Math.Min(file.Name.IndexOf(query.Search) + query.Search.Length + 3, file.Name.Length))}...",
+                        SubTitle = $"Last modified {new FileInfo(file.Name).LastWriteTime.ToString("d")}",
+                        ToolTipData = new ToolTipData("File Index", $"{file.Index}"),
                         ContextData = (file.Name, file.Index),
                     }).ToList();
         }
