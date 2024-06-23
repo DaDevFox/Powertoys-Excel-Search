@@ -74,9 +74,9 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                         QueryTextDisplay = query.Search,
                         IcoPath = IconPath,
                         Title =
-                          !showQueryInSearch ?
-                            Path.GetFileNameWithoutExtension(file.Name) :
-                            $"...{file.Name.Substring(
+                          showQueryInSearch ?
+                            file.Name.EllipsifyInterpolatedQuery(query.Search) :
+                            Path.GetFileNameWithoutExtension(file.Name),
                                 Math.Max(file.Name.IndexOf(query.Search) - 3, 0),
                                 Math.Min(file.Name.IndexOf(query.Search) + query.Search.Length + 3, file.Name.Length))}...",
                         SubTitle = $"Last modified {new FileInfo(file.Name).LastWriteTime.ToString("d")}",
