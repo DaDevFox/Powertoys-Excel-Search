@@ -77,8 +77,6 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                           showQueryInSearch ?
                             file.Name.EllipsifyInterpolatedQuery(query.Search) :
                             Path.GetFileNameWithoutExtension(file.Name),
-                                Math.Max(file.Name.IndexOf(query.Search) - 3, 0),
-                                Math.Min(file.Name.IndexOf(query.Search) + query.Search.Length + 3, file.Name.Length))}...",
                         SubTitle = $"Last modified {new FileInfo(file.Name).LastWriteTime.ToString("d")}",
                         ToolTipData = new ToolTipData("File Path", $"{file.Name}"),
                         ContextData = (file.Name, file.Index),
