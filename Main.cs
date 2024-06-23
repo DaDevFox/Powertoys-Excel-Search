@@ -67,8 +67,8 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
             bool showQueryInSearch = false;
 
             return (from file in Files.OfType<RecentFile>()
-                    where file.Name.Contains(query.Search)
-                    orderby file.Name.FuzzyBitap(query.Search, 2)
+                    where File.Exists(file.Name) && file.Name.FuzzyBitap(query.Search, 2) > 5
+                    orderby file.Name.FuzzyBitap(query.Search, 2) descending
                     select new Result()
                     {
                         QueryTextDisplay = query.Search,
@@ -80,7 +80,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                                 Math.Max(file.Name.IndexOf(query.Search) - 3, 0),
                                 Math.Min(file.Name.IndexOf(query.Search) + query.Search.Length + 3, file.Name.Length))}...",
                         SubTitle = $"Last modified {new FileInfo(file.Name).LastWriteTime.ToString("d")}",
-                        ToolTipData = new ToolTipData("File Index", $"{file.Name.FuzzyBitap(query.Search, 2)}"),
+                        ToolTipData = new ToolTipData("File Path", $"{file.Name}"),
                         ContextData = (file.Name, file.Index),
                     }).ToList();
         }
@@ -116,10 +116,11 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                         PluginName = Name,
                         Title = "Open (Enter)",
                         FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
-                        Glyph = "\xD83D\xDCC2", // Copy
+                        Glyph = "📄", // Open File Icon
                         AcceleratorKey = Key.Enter,
                         Action = _ => {
-                            Files[index].Open();
+                            Excel.Application excel = new();
+                            excel.Workbooks.Open(fileName);
                             return true;
                             }
                     }
