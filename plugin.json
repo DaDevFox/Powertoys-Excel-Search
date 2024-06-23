@@ -1,5 +1,5 @@
 {
-  "ID": "2bd4fbac-da40-41f3-a7fe-22b33e79a99b",
+  "ID": "A2bd4fbacda4041f3a7fe22b33e79a99b",
   "ActionKeyword": "xl:",
   "IsGlobal": false,
   "Name": "ExcelSearch",
@@ -8,7 +8,7 @@
   "Language": "csharp",
   "Website": "https://github.com/DaDevFox/Powertoys-Excel-Search",
   "ExecuteFileName": "Community.PowerToys.Run.Plugin.ExcelSearch.dll",
-  "IcoPathDark": "Images\\icon.dark.png",
-  "IcoPathLight": "Images\\icon.light.png",
-  "DynamicLoading": true
+  "IcoPathDark": "Images\\excel_96x1.png",
+  "IcoPathLight": "Images\\excel_96x1.png",
+  "DynamicLoading": false
 }
