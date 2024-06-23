@@ -68,6 +68,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
 
             return (from file in Files.OfType<RecentFile>()
                     where file.Name.Contains(query.Search)
+                    orderby file.Name.FuzzyBitap(query.Search, 2)
                     select new Result()
                     {
                         QueryTextDisplay = query.Search,
@@ -79,7 +80,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                                 Math.Max(file.Name.IndexOf(query.Search) - 3, 0),
                                 Math.Min(file.Name.IndexOf(query.Search) + query.Search.Length + 3, file.Name.Length))}...",
                         SubTitle = $"Last modified {new FileInfo(file.Name).LastWriteTime.ToString("d")}",
-                        ToolTipData = new ToolTipData("File Index", $"{file.Index}"),
+                        ToolTipData = new ToolTipData("File Index", $"{file.Name.FuzzyBitap(query.Search, 2)}"),
                         ContextData = (file.Name, file.Index),
                     }).ToList();
         }
