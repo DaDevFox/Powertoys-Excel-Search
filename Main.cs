@@ -117,7 +117,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                         Glyph = "📄", // Open File Icon
                         AcceleratorKey = Key.Enter,
                         Action = _ => {
-                            Excel.Application excel = new();
+                            Excel.Application excel = new(){ Visible = true };
                             excel.Workbooks.Open(fileName);
                             return true;
                             }
