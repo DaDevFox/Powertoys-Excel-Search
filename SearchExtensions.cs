@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Community.PowerToys.Run.Plugin.ExcelSearch
+namespace Community.PowerToys.Run.Plugin.OfficeSearch
 {
     public static class SearchExtensions
     {

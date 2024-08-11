@@ -39,6 +39,24 @@
 	    <Isolated>false</Isolated>
 	    <EmbedInteropTypes>true</EmbedInteropTypes>
 	  </COMReference>
+	  <COMReference Include="Microsoft.Office.Interop.Outlook">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>6</VersionMinor>
+	    <VersionMajor>9</VersionMajor>
+	    <Guid>00062fff-0000-0000-c000-000000000046</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
+	  <COMReference Include="Microsoft.Office.Interop.Word">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>7</VersionMinor>
+	    <VersionMajor>8</VersionMajor>
+	    <Guid>00020905-0000-0000-c000-000000000046</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+	  </COMReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -68,10 +86,16 @@
 		<None Include="plugin.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="DynamicPlugin.props">
+		<None Update="Images\ExcelLogoSmall.contrast-black_scale-180.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Images\excel_96x1.png">
+		<None Update="Images\ExcelLogoSmall.contrast-white_scale-180.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Images\WordLogoSmall.contrast-black_scale-180.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Images\WordLogoSmall.contrast-white_scale-180.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
