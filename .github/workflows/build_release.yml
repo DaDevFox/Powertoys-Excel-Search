@@ -70,4 +70,5 @@ jobs:
         with:
           upload_url: ${{ needs.create_release.outputs.release_url }} 
           asset_path: ExcelSearch-${{ needs.create_release.outputs.version_number }}-win64.zip
+          asset_name: ExcelSearch-${{ needs.create_release.outputs.version_number }}-win64.zip
 
