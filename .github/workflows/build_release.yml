@@ -7,6 +7,38 @@ on:
     branches: [ "master" ]
 
 jobs:
+  create_release:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.versionnum.outputs.version.outputs.tag }}
+      release_url: ${{steps.create_release.outputs.upload_url}}
+      version_number: ${{steps.versionnum.outputs.version}}
+      semantic_version: ${{steps.versionvnum.outputs.v_version}}
+    steps:
+      - uses: actions/checkout@master
+      - name: Get Version Number
+        id: versionnum
+        run: |
+          echo "version=$(cat Version.props | grep -oP '(?<=<Version>).*?(?=</Version>)'" >> $GITHUB_OUTPUT
+
+      - name: Concatenate 'v'
+        id: versionvnum
+        run: |
+          echo "v_version=$(printf "v%s" ${{ steps.versionnum.outputs.version }})" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.versionnum.outputs.version }}
+          release_name: ${{ steps.versionvnum.outputs.v_version}}
+          draft: false
+          prerelease: false
+
+
+
   build:
 
     runs-on: windows-latest
@@ -21,7 +53,9 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Find results
-      run: Get-ChildItem -Recurse
+    - name: Zip results
+      run: |
+      Get-ChildItem -Recurse
+      Compress-Archive -Path x64/Release/RunPlugins/ExcelSearch/net8.0-windows/* -DestinationPath 
 
       
