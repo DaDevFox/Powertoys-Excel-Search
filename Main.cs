@@ -148,7 +148,7 @@ namespace Community.PowerToys.Run.Plugin.OfficeSearch
                         PluginName = Name,
                         Title = "Open (Enter)",
                         FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
-                        Glyph = "📄", // Open File Icon
+                        Glyph = "\xE8E5", // Open File Icon
                         AcceleratorKey = Key.Enter,
                         Action = _ => {
                             switch (app){
