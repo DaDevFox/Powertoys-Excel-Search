@@ -9,7 +9,7 @@ using Wox.Plugin;
 using Wox.Plugin.Logger;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace Community.Powertoys.Run.Plugin.ExcelSearch
+namespace Community.PowerToys.Run.Plugin.ExcelSearch
 {
 
     /// <summary>
@@ -114,7 +114,7 @@ namespace Community.Powertoys.Run.Plugin.ExcelSearch
                         PluginName = Name,
                         Title = "Open (Enter)",
                         FontFamily = "Segoe Fluent Icons,Segoe MDL2 Assets",
-                        Glyph = "📄", // Open File Icon
+                        Glyph = "\xE8E5", // Open File Icon
                         AcceleratorKey = Key.Enter,
                         Action = _ => {
                             Excel.Application excel = new(){ Visible = true };
