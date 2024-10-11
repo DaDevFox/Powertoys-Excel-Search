@@ -8,7 +8,6 @@ using Wox.Plugin;
 using Wox.Plugin.Logger;
 using Excel = Microsoft.Office.Interop.Excel;
 using Word = Microsoft.Office.Interop.Word;
-using Outlook = Microsoft.Office.Interop.Outlook;
 using Community.PowerToys.Run.Plugin.OfficeSearch;
 
 namespace Community.PowerToys.Run.Plugin.OfficeSearch

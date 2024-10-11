@@ -1,8 +1,8 @@
 {
   "ID": "A2bd4fbacda4041f3a7fe22b33e79a99b",
-  "ActionKeyword": "xl:",
+  "ActionKeyword": "office: ",
   "IsGlobal": false,
-  "Name": "ExcelSearch",
+  "Name": "OfficeSearch",
   "Author": "mtahiliani",
   "Version": "1.0.0",
   "Language": "csharp",

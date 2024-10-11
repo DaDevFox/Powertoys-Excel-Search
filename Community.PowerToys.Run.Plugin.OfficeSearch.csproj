@@ -8,11 +8,11 @@
 		<LangVersion>preview</LangVersion>	
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyName>Community.PowerToys.Run.Plugin.ExcelSearch</AssemblyName>
-		<RootNamespace>Community.PowerToys.Run.Plugin.ExcelSearch</RootNamespace>
+		<AssemblyName>Community.PowerToys.Run.Plugin.OfficeSearch</AssemblyName>
+		<RootNamespace>Community.PowerToys.Run.Plugin.OfficeSearch</RootNamespace>
 		<Version>$(Version).0</Version>
 		<Platforms>x64</Platforms>
-		<OutputPath>.\$(Platform)\$(Configuration)\RunPlugins\ExcelSearch\</OutputPath> <!-- based on C:\[user dir]\source\repos -->
+		<OutputPath>.\$(Platform)\$(Configuration)\RunPlugins\OfficeSearch\</OutputPath> <!-- based on C:\[user dir]\source\repos -->
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
