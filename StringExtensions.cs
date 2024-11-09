@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Community.PowerToys.Run.Plugin.ExcelSearch
+namespace Community.PowerToys.Run.Plugin.OfficeSearch
 {
     public static class StringExtensions
     {

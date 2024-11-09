@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.ExcelSearch", "Community.PowerToys.Run.Plugin.ExcelSearch.csproj", "{C06B5A6F-44B1-4ADE-B7F6-0E0052F55C57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Community.PowerToys.Run.Plugin.OfficeSearch", "Community.PowerToys.Run.Plugin.OfficeSearch.csproj", "{C06B5A6F-44B1-4ADE-B7F6-0E0052F55C57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

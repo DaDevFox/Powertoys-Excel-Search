@@ -3,21 +3,28 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ManagedCommon;
-using Microsoft.Office.Interop.Excel;
 using Microsoft.PowerToys.Settings.UI.Library;
 using Wox.Plugin;
 using Wox.Plugin.Logger;
 using Excel = Microsoft.Office.Interop.Excel;
+using Word = Microsoft.Office.Interop.Word;
+using Community.PowerToys.Run.Plugin.OfficeSearch;
 
-namespace Community.PowerToys.Run.Plugin.ExcelSearch
+namespace Community.PowerToys.Run.Plugin.OfficeSearch
 {
-
     /// <summary>
     /// Main class of this plugin that implement all used interfaces.
     /// </summary>
     public class Main : IPlugin, IContextMenu, ISettingProvider, IDisposable
     {
-        private static Excel.RecentFiles Files { get; } = (new Excel.Application()).RecentFiles;
+        enum SupportedApplication
+        {
+            Excel,
+            Word
+        }
+
+        private static Excel.RecentFiles ExcelFiles { get; } = (new Excel.Application()).RecentFiles;
+        private static Word.RecentFiles WordFiles { get; } = (new Word.Application()).RecentFiles;
 
         /// <summary>
         /// ID of the plugin.
@@ -27,12 +34,12 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
         /// <summary>
         /// Name of the plugin.
         /// </summary>
-        public string Name => "ExcelSearch";
+        public string Name => "OfficeSearch";
 
         /// <summary>
         /// Description of the plugin.
         /// </summary>
-        public string Description => "Searches recent excel sheets.";
+        public string Description => "Searches recent excel sheets and word documents.";
 
         /// <summary>
         /// Additional options for the plugin.
@@ -40,19 +47,30 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
         public IEnumerable<PluginAdditionalOption> AdditionalOptions => [
             new()
             {
-                Key = nameof(IndexSearch),
-                DisplayLabel = "Index search",
-                DisplayDescription = "Index search db",
+                Key = nameof(IndexOneDrive),
+                DisplayLabel = "Index OneDrive",
+                DisplayDescription = "Index OneDrive files for search",
                 PluginOptionType = PluginAdditionalOption.AdditionalOptionType.Checkbox,
-                Value = IndexSearch,
+                Value = IndexOneDrive,
             }
         ];
 
-        private bool IndexSearch { get; set; }
+        private bool IndexOneDrive { get; set; }
 
         private PluginInitContext? Context { get; set; }
 
-        private string? IconPath { get; set; }
+        private string ExcelLightIconPath { get; } = "Images\\Excel_96x1.png";
+        private string ExcelDarkIconPath { get; } = "Images\\Excel_96x1.png";
+        private string WordLightIconPath { get; } = "Images\\Word_98x1.png";
+        private string WordDarkIconPath { get; } = "Images\\Word_98x1.png";
+
+        //private string ExcelLightIconPath { get; } = "Images\\ExcelLogoSmall.contrast-white_scale-180.png";
+        //private string ExcelDarkIconPath { get; } = "Images\\ExcelLogoSmall.contrast-black_scale-180.png";
+        //private string WordLightIconPath { get; } = "Images\\WordLogoSmall.contrast-white_scale-180.png";
+        //private string WordDarkIconPath { get; } = "Images\\WordLogoSmall.contrast-black_scale-180.png";
+
+        private string? ExcelIconPath { get; set; }
+        private string? WordIconPath { get; set; }
 
         private bool Disposed { get; set; }
 
@@ -64,23 +82,43 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
         public List<Result> Query(Query query)
         {
             Log.Info("Query: " + query.Search, GetType());
+            Log.Info("Word Recent: " + WordFiles.OfType<Word.RecentFile>().First().Name, GetType());
+            Log.Info("Word Recent: " + WordFiles.OfType<Word.RecentFile>().First().Path, GetType());
             bool showQueryInSearch = false;
 
-            return (from file in Files.OfType<RecentFile>()
+            return (from file in ExcelFiles.OfType<Excel.RecentFile>()
                     where File.Exists(file.Name) && file.Name.FuzzyBitap(query.Search, 2) > 5
                     orderby file.Name.FuzzyBitap(query.Search, 2) descending
                     select new Result()
                     {
                         QueryTextDisplay = query.Search,
-                        IcoPath = IconPath,
+                        IcoPath = ExcelIconPath,
                         Title =
                           showQueryInSearch ?
                             file.Name.EllipsifyInterpolatedQuery(query.Search) :
                             Path.GetFileNameWithoutExtension(file.Name),
                         SubTitle = $"Last modified {new FileInfo(file.Name).LastWriteTime.ToString("d")}",
-                        ToolTipData = new ToolTipData("File Path", $"{file.Name}"),
-                        ContextData = (file.Name, file.Index),
-                    }).ToList();
+                        ToolTipData = new ToolTipData("Excel Spreadsheet", $"File Path: {file.Name}"),
+                        ContextData = (file.Name, SupportedApplication.Excel),
+                    })
+                    .Union(
+                   from file in WordFiles.OfType<Word.RecentFile>()
+                   where File.Exists(Path.Combine(file.Path, file.Name)) && Path.Combine(file.Path, file.Name).FuzzyBitap(query.Search, 2) > 5
+                   orderby Path.Combine(file.Path, file.Name).FuzzyBitap(query.Search, 2) descending
+                   select new Result()
+                   {
+                       QueryTextDisplay = query.Search,
+                       IcoPath = WordIconPath,
+                       Title =
+                         showQueryInSearch ?
+                           file.Name.EllipsifyInterpolatedQuery(query.Search) :
+                           Path.GetFileNameWithoutExtension(file.Name),
+                       SubTitle = $"Last modified {new FileInfo(Path.Combine(file.Path, file.Name)).LastWriteTime.ToString("d")}",
+                       ToolTipData = new ToolTipData("Word Document", $"File Path: {Path.Combine(file.Path, file.Name)}"),
+                       ContextData = (Path.Combine(file.Path, file.Name), SupportedApplication.Word),
+                   }
+
+                ).ToList();
         }
 
         /// <summary>
@@ -105,7 +143,7 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
         {
             Log.Info("LoadContextMenus", GetType());
 
-            if (selectedResult?.ContextData is (string fileName, int index))
+            if (selectedResult?.ContextData is (string fileName, SupportedApplication app))
             {
                 return
                 [
@@ -117,10 +155,18 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
                         Glyph = "\xE8E5", // Open File Icon
                         AcceleratorKey = Key.Enter,
                         Action = _ => {
-                            Excel.Application excel = new(){ Visible = true };
-                            excel.Workbooks.Open(fileName);
-                            return true;
+                            switch (app){
+                                case SupportedApplication.Excel:
+                                    Excel.Application excel = new(){ Visible = true };
+                                    excel.Workbooks.Open(fileName);
+                                    break;
+                                case SupportedApplication.Word:
+                                    Word.Application word = new(){ Visible = true, WindowState = Word.WdWindowState.wdWindowStateMaximize};
+                                    word.Documents.Open(fileName);
+                                    break;
                             }
+                            return true;
+                        }
                     }
                 ];
             }
@@ -143,7 +189,7 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
         {
             Log.Info("UpdateSettings", GetType());
 
-            IndexSearch = settings.AdditionalOptions.SingleOrDefault(x => x.Key == nameof(IndexSearch))?.Value ?? false;
+            IndexOneDrive = settings.AdditionalOptions.SingleOrDefault(x => x.Key == nameof(IndexOneDrive))?.Value ?? false;
         }
 
         /// <inheritdoc/>
@@ -174,7 +220,11 @@ namespace Community.PowerToys.Run.Plugin.ExcelSearch
             Disposed = true;
         }
 
-        private void UpdateIconPath(Theme theme) => IconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? Context?.CurrentPluginMetadata.IcoPathLight : Context?.CurrentPluginMetadata.IcoPathDark;
+        private void UpdateIconPath(Theme theme)
+        {
+            ExcelIconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? ExcelLightIconPath : ExcelDarkIconPath;
+            WordIconPath = theme == Theme.Light || theme == Theme.HighContrastWhite ? WordLightIconPath : WordDarkIconPath;
+        }
 
         private void OnThemeChanged(Theme currentTheme, Theme newTheme) => UpdateIconPath(newTheme);
 

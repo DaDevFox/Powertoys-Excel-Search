@@ -1,6 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<Import Project="./Version.props" />
-
 	<PropertyGroup>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<ProjectGuid>{2BD4FBAC-DA40-41F3-A7FE-22B33E79A99B}</ProjectGuid>
@@ -8,15 +6,36 @@
 		<LangVersion>preview</LangVersion>	
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyName>Community.PowerToys.Run.Plugin.ExcelSearch</AssemblyName>
-		<RootNamespace>Community.PowerToys.Run.Plugin.ExcelSearch</RootNamespace>
-		<Version>$(Version).0</Version>
-		<Platforms>x64</Platforms>
-		<OutputPath>.\$(Platform)\$(Configuration)\RunPlugins\ExcelSearch\</OutputPath> <!-- based on C:\[user dir]\source\repos -->
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>Community.PowerToys.Run.Plugin.OfficeSearch</RootNamespace>
+		<Platforms>AnyCPU;x64;ARM64</Platforms>
+		<OutputPath>.\bin\$(Platform)\Release</OutputPath> 
+		<!-- <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies> -->
 	</PropertyGroup>
+	<ItemGroup>
+	  <COMReference Include="Microsoft.Office.Interop.Excel">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>9</VersionMinor>
+	    <VersionMajor>1</VersionMajor>
+	    <Guid>00020813-0000-0000-c000-000000000046</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+		  <Private>true</Private>
+	  </COMReference>
+	  <COMReference Include="Microsoft.Office.Interop.Word">
+	    <WrapperTool>tlbimp</WrapperTool>
+	    <VersionMinor>7</VersionMinor>
+	    <VersionMajor>8</VersionMajor>
+	    <Guid>00020905-0000-0000-c000-000000000046</Guid>
+	    <Lcid>0</Lcid>
+	    <Isolated>false</Isolated>
+	    <EmbedInteropTypes>true</EmbedInteropTypes>
+		  <Private>true</Private>
+	  </COMReference>
+	</ItemGroup>
 
-	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+	<!-- <PropertyGroup Condition="'$(Configuration)'=='Debug'">
 		<DebugSymbols>true</DebugSymbols>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<DebugType>full</DebugType>
@@ -27,7 +46,7 @@
 		<DefineConstants>TRACE</DefineConstants>
 		<Optimize>true</Optimize>
 		<DebugType>pdbonly</DebugType>
-	</PropertyGroup>
+	</PropertyGroup> -->
 	<ItemGroup>
 		<Reference Include="PowerToys.Common.UI">
 			<Private>false</Private>
@@ -39,7 +58,7 @@
 		</Reference>
 		<Reference Include="PowerToys.Settings.UI.Lib">
 			<Private>false</Private>
-			<HintPath>.\libs\PowerToys.Settings.UI.Lib.dll</HintPath>
+			<HintPath>.\libs\x64\PowerToys.Settings.UI.Lib.dll</HintPath>
 		</Reference>
 		<Reference Include="Wox.Infrastructure">
 			<Private>false</Private>
@@ -52,15 +71,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Include="plugin.json">
+		<None Update="plugin.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Include="DynamicPlugin.props">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
-		<PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
-		<None Update="Images\excel_96x1.png">
+		<None Update="Images\*.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

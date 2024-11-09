@@ -1,5 +1,5 @@
-# ExcelSearch
-This plugin searches Excel files 
+# OfficeSearch
+This plugin to the PowerToys Run launcher searches Excel spreadsheets, Word documents, and (coming soon) more 
 
 # Installation
 
