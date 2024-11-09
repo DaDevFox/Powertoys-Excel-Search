@@ -17,4 +17,4 @@ Localization resources
 
 ? OneDrive files search
 
-? Word + Outlook extensions
+? Outlook search support
