@@ -3,11 +3,11 @@
   "ActionKeyword": "office: ",
   "IsGlobal": false,
   "Name": "OfficeSearch",
-  "Author": "mtahiliani",
+  "Author": "Mehul Tahiliani",
   "Version": "1.0.0",
   "Language": "csharp",
   "Website": "https://github.com/DaDevFox/Powertoys-Excel-Search",
-  "ExecuteFileName": "Community.PowerToys.Run.Plugin.ExcelSearch.dll",
+  "ExecuteFileName": "Community.PowerToys.Run.Plugin.OfficeSearch.dll",
   "IcoPathDark": "Images\\ExcelLogoSmall.contrast-white_scale-180.png",
   "IcoPathLight": "Images\\ExcelLogoSmall.contrast-black_scale-180.png",
   "DynamicLoading": false

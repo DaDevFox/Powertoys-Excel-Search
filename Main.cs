@@ -59,10 +59,15 @@ namespace Community.PowerToys.Run.Plugin.OfficeSearch
 
         private PluginInitContext? Context { get; set; }
 
-        private string ExcelLightIconPath { get; } = "Images\\ExcelLogoSmall.contrast-white_scale-180.png";
-        private string ExcelDarkIconPath { get; } = "Images\\ExcelLogoSmall.contrast-black_scale-180.png";
-        private string WordLightIconPath { get; } = "Images\\WordLogoSmall.contrast-white_scale-180.png";
-        private string WordDarkIconPath { get; } = "Images\\WordLogoSmall.contrast-black_scale-180.png";
+        private string ExcelLightIconPath { get; } = "Images\\Excel_96x1.png";
+        private string ExcelDarkIconPath { get; } = "Images\\Excel_96x1.png";
+        private string WordLightIconPath { get; } = "Images\\Word_98x1.png";
+        private string WordDarkIconPath { get; } = "Images\\Word_98x1.png";
+
+        //private string ExcelLightIconPath { get; } = "Images\\ExcelLogoSmall.contrast-white_scale-180.png";
+        //private string ExcelDarkIconPath { get; } = "Images\\ExcelLogoSmall.contrast-black_scale-180.png";
+        //private string WordLightIconPath { get; } = "Images\\WordLogoSmall.contrast-white_scale-180.png";
+        //private string WordDarkIconPath { get; } = "Images\\WordLogoSmall.contrast-black_scale-180.png";
 
         private string? ExcelIconPath { get; set; }
         private string? WordIconPath { get; set; }
@@ -156,7 +161,7 @@ namespace Community.PowerToys.Run.Plugin.OfficeSearch
                                     excel.Workbooks.Open(fileName);
                                     break;
                                 case SupportedApplication.Word:
-                                    Word.Application word = new(){ Visible = true };
+                                    Word.Application word = new(){ Visible = true, WindowState = Word.WdWindowState.wdWindowStateMaximize};
                                     word.Documents.Open(fileName);
                                     break;
                             }
